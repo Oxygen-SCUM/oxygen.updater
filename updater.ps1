@@ -3,7 +3,7 @@ $serverRoot = $PSScriptRoot
 if (-not $serverRoot) { $serverRoot = Get-Location }
 
 $licenseFileName = "oxygen_license.json"
-$apiUrl = "/api/server/plugin/check-access"
+$apiUrl = "https://3.75.56.93.sslip.io/api/server/plugin/check-access"
 $mainDllPath = Join-Path $serverRoot "SCUM\Binaries\Win64\oxygen.core.dll"
 $licenseFilePath = Join-Path $serverRoot $licenseFileName
 $webPort = 8447
@@ -38,16 +38,17 @@ function Check-Requirements {
     $links = @()
 
     # 1. VC++ Redist check
-    if (-not (Test-Path "HKLM:\SOFTWARE\Microsoft\Visual Studio\14.0\VC\Runtimes\x64")) {
+    if (-not (Test-Path "HKLM:\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64")) {
         $missing += "Microsoft Visual C++ 2015-2022 Redistributable (x64)"
-        $links += "VC++: https://aka.ms/vs/17/release/vc_redist.x64.exe"
+        $links += "VC++ (Direct): https://aka.ms/vs/17/release/vc_redist.x64.exe"
     }
 
     # 2. .NET Runtime check
     $dotnetVer = dotnet --list-runtimes 2>$null | Select-String "Microsoft.NETCore.App 8."
     if (-not $dotnetVer) {
-        $missing += ".NET Runtime (Desktop or Runtime 8.0+)"
-        $links += ".NET 8.0: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-8.0.23-windows-hosting-bundle-installer"
+        $missing += ".NET Runtime 8.0 (x64)"
+        # Пряме посилання на завантаження консольного рантайму
+        $links += ".NET 8.0: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-8.0.0-windows-x64-installer"
     }
     
     # 3. OpenSSL Check (Strict file check)
