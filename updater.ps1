@@ -3,7 +3,7 @@ $serverRoot = $PSScriptRoot
 if (-not $serverRoot) { $serverRoot = Get-Location }
 
 $licenseFileName = "oxygen_license.json"
-$apiUrl = "https://3.75.56.93.sslip.io/api/server/plugin/check-access"
+$apiUrl = "https://oxymod.com/api/server/plugin/check-access"
 $mainDllPath = Join-Path $serverRoot "SCUM\Binaries\Win64\oxygen.core.dll"
 $licenseFilePath = Join-Path $serverRoot $licenseFileName
 $webPort = 8447
@@ -48,7 +48,7 @@ function Check-Requirements {
     if (-not $dotnetVer) {
         $missing += ".NET Runtime 8.0 (x64)"
         # Пряме посилання на завантаження консольного рантайму
-        $links += ".NET 8.0: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-8.0.0-windows-x64-installer"
+        $links += ".NET 8.0: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-8.0.24-windows-x64-installer"
     }
     
     # 3. OpenSSL Check (Strict file check)
